@@ -9,7 +9,7 @@ I'm using the [MakerHawk ESP32](https://www.amazon.co.uk/MakerHawk-Development-0
 1. Install the Arduino IDE
 1. Follow the install guide for [Heltec ESP32+LoRa Series Quick Start](https://heltec-automation-docs.readthedocs.io/en/latest/esp32/quick_start.html)
 
-Resource: 
+Resource:https://github.com/Heltec-Aaron-Lee/WiFi_Kit_series
 
 ### Sort of generic guide
 

@@ -1,71 +1,48 @@
-/*
- * HelTec Automation(TM) WIFI_Kit_32 factory test code, witch includ
- * follow functions:
- *
- * - Basic OLED function test;
- *
- * - Basic serial port test(in baud rate 115200);
- *
- * - LED blink test;
- *
- * - WIFI join and scan test;
- *
- * - Timer test and some other Arduino basic functions.
- *
- * by Aaron.Lee from HelTec AutoMation, ChengDu, China
- * 成都惠利特自动化科技有限公司
- * www.heltec.cn
- *
- * this project also realess in GitHub:
- * https://github.com/HelTecAutomation/Heltec_ESP32
-*/
-
 #include "heltec.h"
 #include "WiFi.h"
-#include "images.h"
-
-
-void logo(){
-  Heltec.display -> clear();
-  Heltec.display -> drawXbm(0,5,logo_width,logo_height,(const unsigned char *)logo_bits);
-  Heltec.display -> display();
-}
+#include "env.h"
 
 void WIFISetUp(void)
 {
   // Set WiFi to station mode and disconnect from an AP if it was previously connected
   WiFi.disconnect(true);
+  
   delay(1000);
+  
   WiFi.mode(WIFI_STA);
   WiFi.setAutoConnect(true);
-  WiFi.begin("Your WIFI SSID","Your WIFI Password");
+  WiFi.begin(wifi_ssid, wifi_password);
+  
   delay(100);
 
   byte count = 0;
-  while(WiFi.status() != WL_CONNECTED && count < 10)
+  while (WiFi.status() != WL_CONNECTED && count < 10)
   {
-    count ++;
+    count++;
+
     delay(500);
+
     Heltec.display -> drawString(0, 0, "Connecting...");
     Heltec.display -> display();
   }
 
   Heltec.display -> clear();
-  if(WiFi.status() == WL_CONNECTED)
+
+  if (WiFi.status() == WL_CONNECTED)
   {
     Heltec.display -> drawString(0, 0, "Connecting...OK.");
     Heltec.display -> display();
-//    delay(500);
   }
   else
   {
     Heltec.display -> clear();
     Heltec.display -> drawString(0, 0, "Connecting...Failed");
     Heltec.display -> display();
-//    while(1);
   }
+
   Heltec.display -> drawString(0, 10, "WIFI Setup done");
   Heltec.display -> display();
+
   delay(500);
 }
 
@@ -111,29 +88,27 @@ void WIFIScan(void)
   Heltec.display -> display();
   delay(800);
   Heltec.display -> clear();
-
 }
 
 void setup()
 {
-  pinMode(LED,OUTPUT);
-  digitalWrite(LED,HIGH);
+  pinMode(LED, OUTPUT);
+  digitalWrite(LED, HIGH);
 
   Heltec.begin(true /*DisplayEnable Enable*/, false /*LoRa Enable*/, true /*Serial Enable*/);
 
-  logo();
-  delay(300);
-  Heltec.display->clear();
-  WIFISetUp();
+  Heltec.display -> clear();
+  Heltec.display -> drawString(0, 0, "Starting...");
+  Heltec.display -> display();
   
-  WiFi.disconnect(true);//重新初始化WIFI
-  delay(1000);
-  WiFi.mode(WIFI_STA);
-  WiFi.setAutoConnect(true);
+  delay(300);
+  
+  Heltec.display -> clear();
+  
+  WIFISetUp();
 }
 
 void loop()
 {
-  WIFIScan();
   delay(2000);
 }

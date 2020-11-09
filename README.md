@@ -21,3 +21,12 @@ This guide is more general.
 1. Upload!
 
 Resource: [https://www.youtube.com/watch?v=xPlN_Tk3VLQ](https://www.youtube.com/watch?v=xPlN_Tk3VLQ)
+
+## Connecting to wifi
+
+1. Create a file called `env.h`
+1. Insert contents:
+  ```
+#define wifi_ssid "your ssid"
+#define wifi_password "your password"
+  ```

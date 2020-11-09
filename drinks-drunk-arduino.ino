@@ -1,5 +1,8 @@
 #include "heltec.h"
 #include "WiFi.h"
+#include <HTTPClient.h> // https://arduinojson.org/v6/how-to/use-arduinojson-with-httpclient/
+#include <ArduinoJson.h>
+
 #include "env.h"
 
 void WIFISetUp(void)
@@ -90,6 +93,30 @@ void WIFIScan(void)
   Heltec.display -> clear();
 }
 
+void getDrinks()
+{
+  HTTPClient http;
+
+  http.useHTTP10(true);
+  http.begin("http://192.168.1.2:9999/drinks");
+  
+  int httpCode = http.GET();
+ 
+  if (httpCode > 0) {
+    DynamicJsonDocument drinks(2048);
+    
+    deserializeJson(drinks, http.getStream());
+    
+    Serial.println(httpCode);
+    // This doesn't work, maybe it doesn't expect an array to be the root object?
+    //Serial.println(drinks[0]["name"]);
+  } else {
+    Serial.println("Error on HTTP request");
+  }
+
+  http.end();
+}
+
 void setup()
 {
   pinMode(LED, OUTPUT);
@@ -110,5 +137,7 @@ void setup()
 
 void loop()
 {
-  delay(2000);
+  delay(5000);
+
+  getDrinks();
 }

@@ -103,13 +103,28 @@ void getDrinks()
   int httpCode = http.GET();
  
   if (httpCode > 0) {
+    Serial.println(httpCode);
+
     DynamicJsonDocument drinks(2048);
     
     deserializeJson(drinks, http.getStream());
+
+    JsonArray drinksArray = drinks.as<JsonArray>();
+
+    int i = 0;
+
+    Heltec.display -> clear();
+
+    for (JsonVariant v : drinksArray) {
+      // Serial.println(v["name"].as<const char*>());
+
+      Heltec.display -> drawString(0, i * 10, v["name"].as<const char*>());
+
+      i++;
+    }
+
+    Heltec.display -> display();
     
-    Serial.println(httpCode);
-    // This doesn't work, maybe it doesn't expect an array to be the root object?
-    //Serial.println(drinks[0]["name"]);
   } else {
     Serial.println("Error on HTTP request");
   }

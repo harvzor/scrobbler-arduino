@@ -3,9 +3,8 @@
 
 #define api "http://192.168.1.2:9999"
 
-JsonArray getDrinks() {
-    String url = String(api) + "/drinks";
-    JsonArray drinksArray;
+DynamicJsonDocument apiRequest(String url) {
+    DynamicJsonDocument doc(2048);
 
     HTTPClient http;
 
@@ -17,16 +16,28 @@ JsonArray getDrinks() {
     if (httpCode > 0) {
         Serial.println(httpCode);
 
-        DynamicJsonDocument drinks(2048);
-        
-        deserializeJson(drinks, http.getStream());
-
-        drinksArray = drinks.as<JsonArray>();
+        deserializeJson(doc, http.getStream());
     } else {
         Serial.println("Error on HTTP request");
     }
 
     http.end();
 
-    return drinksArray;
+    return doc;
+}
+
+bool apiHealthy() {
+    String url = String(api) + "/health";
+
+    DynamicJsonDocument status = apiRequest(url);
+
+    return status["status"] == "Healthy";
+}
+
+JsonArray getDrinks() {
+    String url = String(api) + "/drinks";
+
+    DynamicJsonDocument drinks = apiRequest(url);
+
+    return drinks.as<JsonArray>();
 }

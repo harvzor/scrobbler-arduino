@@ -108,8 +108,12 @@ void displayDrinks(JsonArray drinksArray) {
 
     Heltec.display -> clear();
 
+    Heltec.display -> drawString(0, i * 10, "Drinks:");
+
+    i++;
+
     for (JsonVariant v : drinksArray) {
-        Heltec.display -> drawString(0, i * 10, v["name"].as<const char*>());
+        Heltec.display -> drawString(0, i * 10, String("- ") + v["name"].as<const char*>());
 
         i++;
     }
@@ -117,7 +121,23 @@ void displayDrinks(JsonArray drinksArray) {
     Heltec.display -> display();
 }
 
+void displayHealth() {
+    Heltec.display -> clear();
+
+    if (apiHealthy()) {
+        Heltec.display -> drawString(0, 0, "API healthy");
+    } else {
+        Heltec.display -> drawString(0, 0, "API unhealthy!");
+    }
+
+    Heltec.display -> display();
+}
+
 void loop() {
+    delay(5000);
+
+    displayHealth();
+
     delay(5000);
 
     JsonArray drinksArray = getDrinks();

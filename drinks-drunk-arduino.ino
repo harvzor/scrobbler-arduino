@@ -1,6 +1,6 @@
 #include "heltec.h"
 #include "WiFi.h"
-#include <HTTPClient.h> // https://arduinojson.org/v6/how-to/use-arduinojson-with-httpclient/
+
 #include <ArduinoJson.h>
 
 #include "env.h"
@@ -93,44 +93,6 @@ void WIFIScan(void)
     Heltec.display -> clear();
 }
 
-void getDrinks()
-{
-    HTTPClient http;
-
-    http.useHTTP10(true);
-    http.begin("http://192.168.1.2:9999/drinks");
-    
-    int httpCode = http.GET();
- 
-    if (httpCode > 0) {
-        Serial.println(httpCode);
-
-        DynamicJsonDocument drinks(2048);
-        
-        deserializeJson(drinks, http.getStream());
-
-        JsonArray drinksArray = drinks.as<JsonArray>();
-
-        int i = 0;
-
-        Heltec.display -> clear();
-
-        for (JsonVariant v : drinksArray) {
-            // Serial.println(v["name"].as<const char*>());
-
-            Heltec.display -> drawString(0, i * 10, v["name"].as<const char*>());
-
-            i++;
-        }
-
-        Heltec.display -> display();
-        
-    } else {
-        Serial.println("Error on HTTP request");
-    }
-
-    http.end();
-}
 
 void setup()
 {
@@ -150,9 +112,26 @@ void setup()
     WIFISetUp();
 }
 
+void displayDrinks(JsonArray drinksArray) {
+    int i = 0;
+
+    Heltec.display -> clear();
+
+    for (JsonVariant v : drinksArray) {
+        // Serial.println(v["name"].as<const char*>());
+
+        Heltec.display -> drawString(0, i * 10, v["name"].as<const char*>());
+
+        i++;
+    }
+
+    Heltec.display -> display();
+}
+
 void loop()
 {
     delay(5000);
 
-    getDrinks();
+    JsonArray drinksArray = getDrinks();
+    displayDrinks(drinksArray);
 }

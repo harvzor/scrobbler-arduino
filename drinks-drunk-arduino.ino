@@ -5,8 +5,7 @@
 
 #include "env.h"
 
-void WIFISetUp(void)
-{
+void WIFISetUp(void) {
     // Set WiFi to station mode and disconnect from an AP if it was previously connected
     WiFi.disconnect(true);
     
@@ -31,13 +30,10 @@ void WIFISetUp(void)
 
     Heltec.display -> clear();
 
-    if (WiFi.status() == WL_CONNECTED)
-    {
+    if (WiFi.status() == WL_CONNECTED) {
         Heltec.display -> drawString(0, 0, "Connecting...OK.");
         Heltec.display -> display();
-    }
-    else
-    {
+    } else {
         Heltec.display -> clear();
         Heltec.display -> drawString(0, 0, "Connecting...Failed");
         Heltec.display -> display();
@@ -49,8 +45,7 @@ void WIFISetUp(void)
     delay(500);
 }
 
-void WIFIScan(void)
-{
+void WIFIScan(void) {
     Heltec.display -> drawString(0, 20, "Scan start...");
     Heltec.display -> display();
 
@@ -60,15 +55,12 @@ void WIFIScan(void)
     delay(500);
     Heltec.display -> clear();
 
-    if (n == 0)
-    {
+    if (n == 0) {
         Heltec.display -> clear();
         Heltec.display -> drawString(0, 0, "no network found");
         Heltec.display -> display();
         while(1);
-    }
-    else
-    {
+    } else {
         Serial.print(n);
         Heltec.display -> drawString(0, 0, (String)n);
         Heltec.display -> drawString(14, 0, "networks found:");
@@ -94,8 +86,7 @@ void WIFIScan(void)
 }
 
 
-void setup()
-{
+void setup() {
     pinMode(LED, OUTPUT);
     digitalWrite(LED, HIGH);
 
@@ -118,8 +109,6 @@ void displayDrinks(JsonArray drinksArray) {
     Heltec.display -> clear();
 
     for (JsonVariant v : drinksArray) {
-        // Serial.println(v["name"].as<const char*>());
-
         Heltec.display -> drawString(0, i * 10, v["name"].as<const char*>());
 
         i++;
@@ -128,8 +117,7 @@ void displayDrinks(JsonArray drinksArray) {
     Heltec.display -> display();
 }
 
-void loop()
-{
+void loop() {
     delay(5000);
 
     JsonArray drinksArray = getDrinks();

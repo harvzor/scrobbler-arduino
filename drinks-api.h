@@ -3,8 +3,8 @@
 
 #define api "http://192.168.1.2:9999"
 
-DynamicJsonDocument apiRequest(String url) {
-    DynamicJsonDocument doc(2048);
+DynamicJsonDocument apiRequest(int capacity, String url) {
+    DynamicJsonDocument doc(capacity);
 
     HTTPClient http;
 
@@ -29,15 +29,27 @@ DynamicJsonDocument apiRequest(String url) {
 bool apiHealthy() {
     String url = String(api) + "/health";
 
-    DynamicJsonDocument status = apiRequest(url);
+    DynamicJsonDocument status = apiRequest(JSON_OBJECT_SIZE(1) + 80, url);
 
     return status["status"] == "Healthy";
 }
 
-JsonArray getDrinks() {
+Drink * getDrinks() {
     String url = String(api) + "/drinks";
 
-    DynamicJsonDocument drinks = apiRequest(url);
+    DynamicJsonDocument doc = apiRequest(JSON_ARRAY_SIZE(5) + 5 * JSON_OBJECT_SIZE(5) + 80, url);
 
-    return drinks.as<JsonArray>();
+    Drink drinks[5];
+
+    int i = 0;
+
+    for (JsonVariant v : doc.as<JsonArray>()) {
+        drinks[i] = Drink {
+           v["name"].as<const char*>()
+        };
+
+        i++;
+    }
+
+    return drinks;
 }

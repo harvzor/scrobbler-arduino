@@ -1,9 +1,9 @@
 #include "heltec.h"
 #include "WiFi.h"
 
-#include <ArduinoJson.h>
-
 #include "env.h"
+#include "Drink.h"
+#include "drinks-api.h"
 
 void WIFISetUp(void) {
     // Set WiFi to station mode and disconnect from an AP if it was previously connected
@@ -85,25 +85,7 @@ void WIFIScan(void) {
     Heltec.display -> clear();
 }
 
-
-void setup() {
-    pinMode(LED, OUTPUT);
-    digitalWrite(LED, HIGH);
-
-    Heltec.begin(true /*DisplayEnable Enable*/, false /*LoRa Enable*/, true /*Serial Enable*/);
-
-    Heltec.display -> clear();
-    Heltec.display -> drawString(0, 0, "Starting...");
-    Heltec.display -> display();
-    
-    delay(300);
-    
-    Heltec.display -> clear();
-    
-    WIFISetUp();
-}
-
-void displayDrinks(JsonArray drinksArray) {
+void displayDrinks(Drink drinks[]) {
     int i = 0;
 
     Heltec.display -> clear();
@@ -112,8 +94,8 @@ void displayDrinks(JsonArray drinksArray) {
 
     i++;
 
-    for (JsonVariant v : drinksArray) {
-        Heltec.display -> drawString(0, i * 10, String("- ") + v["name"].as<const char*>());
+    for (int x = 0; x < sizeof(drinks) / sizeof(drinks[0]); x++) {
+        Heltec.display -> drawString(0, i * 10, String("- ") + drinks[x].name);
 
         i++;
     }
@@ -133,6 +115,23 @@ void displayHealth() {
     Heltec.display -> display();
 }
 
+void setup() {
+    pinMode(LED, OUTPUT);
+    digitalWrite(LED, HIGH);
+
+    Heltec.begin(true /*DisplayEnable Enable*/, false /*LoRa Enable*/, true /*Serial Enable*/);
+
+    Heltec.display -> clear();
+    Heltec.display -> drawString(0, 0, "Starting...");
+    Heltec.display -> display();
+    
+    delay(300);
+    
+    Heltec.display -> clear();
+    
+    WIFISetUp();
+}
+
 void loop() {
     delay(5000);
 
@@ -140,6 +139,6 @@ void loop() {
 
     delay(5000);
 
-    JsonArray drinksArray = getDrinks();
-    displayDrinks(drinksArray);
+    Drink drinks[5] = getDrinks();
+    displayDrinks(drinks);
 }

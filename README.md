@@ -33,9 +33,11 @@ I tried to get it workign via Docker on Windows and WSL2 but that's not supporte
 
 1. `choco install putty -y`
 1. open putty
-1. go to serial section
-
-I couldn't actually get it to work and used the Arduino IDE serial monitor in the end...
+1. **don't go to serial section**
+1. select **Serial** option in radio buttons
+1. set **Serial line** and **Speed** to `115200`
+1. save profile as `Wifi32`
+1. run `putty -load Wifi32` from CLI to run that profile
 
 ## Arduino IDE
 

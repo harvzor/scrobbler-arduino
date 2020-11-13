@@ -1,7 +1,7 @@
 #include <HTTPClient.h> // https://arduinojson.org/v6/how-to/use-arduinojson-with-httpclient/
 #include <ArduinoJson.h>
 
-#define api "http://192.168.1.2:9999"
+#define api "http://192.168.1.163:9999"
 
 DynamicJsonDocument apiRequest(int capacity, String url) {
     DynamicJsonDocument doc(capacity);
@@ -39,7 +39,7 @@ Drink * getDrinks() {
 
     DynamicJsonDocument doc = apiRequest(JSON_ARRAY_SIZE(5) + 5 * JSON_OBJECT_SIZE(5) + 80, url);
 
-    Drink drinks[5];
+    Drink drinks[3];
 
     int i = 0;
 

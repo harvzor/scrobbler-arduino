@@ -45,6 +45,7 @@ Drink * getDrinks() {
 
     for (JsonVariant v : doc.as<JsonArray>()) {
         drinks[i] = Drink {
+           v["id"].as<int>(),
            v["name"].as<const char*>()
         };
 

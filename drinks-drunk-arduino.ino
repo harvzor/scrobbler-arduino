@@ -100,7 +100,7 @@ void displayDrinks(Drink * drinks) {
         // const char * name = " test";
         // Heltec.display -> drawString(0, i * 10, String("- ") + name);
 
-        Serial.println(drinks[x].name);
+        Serial.println(drinks[x].id);
 
         // Heltec.display -> drawString(0, i * 10, String("- ") + drinks[x].name);
 

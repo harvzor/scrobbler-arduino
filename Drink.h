@@ -1,4 +1,4 @@
 typedef struct {
-    // int id;
+    int id;
     const char* name;
 }Drink;

@@ -39,6 +39,8 @@ I tried to get it workign via Docker on Windows and WSL2 but that's not supporte
 1. save profile as `Wifi32`
 1. run `putty -load Wifi32` from CLI to run that profile
 
+If you want to also send messages, also follow this: https://stackoverflow.com/questions/4999280/how-to-send-characters-in-putty-serial-communication-only-when-pressing-enter
+
 ## Arduino IDE
 
 ### MakerHawk ESP32

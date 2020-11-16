@@ -1,18 +1,15 @@
-from machine import Pin, I2C
-from lib.ssd1306 import SSD1306_I2C
 from time import sleep
+import api
+from display import display
 
-display_rst = Pin(16, Pin.OUT)
-display_rst.value(1)
+display.text('Main...', 0, 0)
 
-i2c = I2C(scl=Pin(15), sda=Pin(4))
+display.show()
 
-oled_width = 128
-oled_height = 64
-oled = SSD1306_I2C(oled_width, oled_height, i2c)
+display.text('Getting health...', 0, 10)
 
-oled.text('Hello, World 1!', 0, 0)
-oled.text('Hello, World 2!', 0, 10)
-oled.text('Hello, World 3!', 0, 20)
+health = api.get_health()
 
-oled.show()
+display.text(health, 0, 20)
+
+display.show()

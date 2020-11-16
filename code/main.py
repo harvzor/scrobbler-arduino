@@ -6,13 +6,38 @@ display.text('Main...', 0, 0)
 
 display.show()
 
-display.text('Getting health...', 0, 10)
+def show_health():
+    display.fill(0)
 
-health = api.get_health()
+    display.text('Getting health...', 0, 10)
 
-if health.status == 'Healthy':
-    display.text('API healthy', 0, 20)
-else:
-    display.text('API unhealthy!', 0, 20)
+    health = api.get_health()
 
-display.show()
+    if health.status == 'Healthy':
+        display.text('API healthy', 0, 20)
+    else:
+        display.text('API unhealthy!', 0, 20)
+
+    display.show()
+
+
+def show_drinks():
+    display.fill(0)
+
+    display.text('Drinks:', 0, 10)
+
+    drinks = api.get_drinks()
+
+    for i, drink in enumerate(drinks, start=2):
+        display.text('- ' + drink.name, 0, 10 * i)
+
+    display.show()
+
+while True:
+    sleep(5)
+
+    show_health()
+
+    sleep(5)
+
+    show_drinks()

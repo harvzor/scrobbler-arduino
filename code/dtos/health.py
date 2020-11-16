@@ -1,10 +1,10 @@
 class Health:
     status = ''
     @staticmethod
-    def from_json(json):
+    def from_obj(obj):
         health = Health()
 
-        health.status = json['status']
+        health.status = obj['status']
 
         return health
 

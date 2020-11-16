@@ -8,6 +8,15 @@ I'm using the [MakerHawk ESP32](https://www.amazon.co.uk/MakerHawk-Development-0
 
 - wiring diagram: https://raw.githubusercontent.com/Heltec-Aaron-Lee/WiFi_Kit_series/master/PinoutDiagram/WIFI%20Kit%2032.pdf
 
+### Env vars
+
+You'll want to define variables in the `env.py` file, something like:
+
+```
+wifi_ssid = '<ssid>'
+wifi_password = '<password>'
+```
+
 ### MicroPython
 
 1. install Python `choco install python3 -y`

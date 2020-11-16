@@ -1,5 +1,5 @@
 from machine import Pin, I2C
-import ssd1306
+from lib.ssd1306 import SSD1306_I2C
 from time import sleep
 
 display_rst = Pin(16, Pin.OUT)
@@ -9,7 +9,7 @@ i2c = I2C(scl=Pin(15), sda=Pin(4))
 
 oled_width = 128
 oled_height = 64
-oled = ssd1306.SSD1306_I2C(oled_width, oled_height, i2c)
+oled = SSD1306_I2C(oled_width, oled_height, i2c)
 
 oled.text('Hello, World 1!', 0, 0)
 oled.text('Hello, World 2!', 0, 10)

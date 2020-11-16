@@ -75,3 +75,9 @@ If you want to also send messages, also follow this: https://stackoverflow.com/q
 
 - using OLED display: https://randomnerdtutorials.com/micropython-oled-display-esp32-esp8266/
 - MakerHawk ESP32 wiring diagram: https://raw.githubusercontent.com/Heltec-Aaron-Lee/WiFi_Kit_series/master/PinoutDiagram/WIFI%20Kit%2032.pdf
+
+## Intellisense
+
+Doens't really work because VSCode can't find the libaries used by micropython.
+
+Maybe https://github.com/BradenM/micropy-cli is the answer but I can't get it to work.

@@ -10,6 +10,9 @@ display.text('Getting health...', 0, 10)
 
 health = api.get_health()
 
-display.text(str(health), 0, 20)
+if health.status == 'Healthy':
+    display.text('API healthy', 0, 20)
+else:
+    display.text('API unhealthy!', 0, 20)
 
 display.show()

@@ -10,6 +10,6 @@ display.text('Getting health...', 0, 10)
 
 health = api.get_health()
 
-display.text(health, 0, 20)
+display.text(str(health), 0, 20)
 
 display.show()

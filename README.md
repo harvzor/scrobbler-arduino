@@ -1,25 +1,55 @@
 # Drinks Drunk Arduino
 
+Decided to use MicroPython since whatever abomination of C++ sub or superset that Arduino normally uses is a huge pain to work with.
+
 ## Getting started
 
-## Arduino CLI
+I'm using the [MakerHawk ESP32](https://www.amazon.co.uk/MakerHawk-Development-0-96inch-Display-Compatible/dp/B076P8GRWV) board.
 
-I'm using v0.13.
+- wiring diagram: https://raw.githubusercontent.com/Heltec-Aaron-Lee/WiFi_Kit_series/master/PinoutDiagram/WIFI%20Kit%2032.pdf
 
-1. `choco install arduino-cli -y`
-1. Find config file with `arduino-cli`
-1. Add:
-  ```
-board_manager:
-  additional_urls:
-    - https://resource.heltec.cn/download/package_heltec_esp32_index.json
-  ```
-1. `arduino-cli core install Heltec-esp32:esp32`
-1. `arduino-cli compile --fqbn Heltec-esp32:esp32:wifi_kit_32 drinks-drunk-arduino`
-1. `arduino-cli board list` to find the port, mine is COM3
-1. `arduino-cli upload -p COM3 --fqbn Heltec-esp32:esp32:wifi_kit_32 drinks-drunk-arduino`
+### MicroPython
 
-Resource: https://arduino.github.io/arduino-cli/latest/getting-started/
+1. install Python `choco install python3 -y`
+1. check `python` and `pip` are in your PATH
+1. install tool with `pip install esptool`
+1. verify installation with `esptool.py -h` (I had to find that file and add a another PATH var to it)
+
+#### Backup / restore
+
+https://cyberblogspot.com/how-to-save-and-restore-esp8266-and-esp32-firmware/
+
+Backup with:
+
+```
+esptool.py --port COM3 read_flash 0x0 0x800000 backup.bin
+```
+
+Restore with:
+
+```
+esptool.py --port COM3 write_flash 0x0 backup.bin 
+```
+
+#### Flashing MicroPython
+
+https://micropython.org/download/esp32/
+
+1. `esptool.py --chip esp32 --port COM3 erase_flash`
+1. `esptool.py --chip esp32 --port COM3 --baud 460800 write_flash -z 0x1000 esp32-idf3-20200902-v1.13.bin`
+
+#### Connect to REPL with `rshell`
+
+1. `pip install rshell`
+1. `rshell -p COM3`
+1. `repl`
+1. `print("Hello World!")`
+
+#### Syncing code to the board
+
+```
+rshell -p COM3 rsync -m code /pyboard/
+```
 
 ### Serial monitor
 
@@ -41,33 +71,7 @@ I tried to get it workign via Docker on Windows and WSL2 but that's not supporte
 
 If you want to also send messages, also follow this: https://stackoverflow.com/questions/4999280/how-to-send-characters-in-putty-serial-communication-only-when-pressing-enter
 
-## Arduino IDE
+## Docs
 
-### MakerHawk ESP32
-
-I'm using the [MakerHawk ESP32](https://www.amazon.co.uk/MakerHawk-Development-0-96inch-Display-Compatible/dp/B076P8GRWV) board.
-
-1. Install the Arduino IDE
-1. Follow the install guide for [Heltec ESP32+LoRa Series Quick Start](https://heltec-automation-docs.readthedocs.io/en/latest/esp32/quick_start.html)
-
-Resource: https://github.com/Heltec-Aaron-Lee/WiFi_Kit_series
-
-### Sort of generic guide
-
-This guide is more general.
-
-1. Install the Arduino IDE
-1. Follow the install guide for [Arduio core for the ESP32](https://github.com/espressif/arduino-esp32)
-1. Select board `ESP32 Dev Module` in Arduino IDE
-1. Upload!
-
-Resource: [https://www.youtube.com/watch?v=xPlN_Tk3VLQ](https://www.youtube.com/watch?v=xPlN_Tk3VLQ)
-
-## Connecting to wifi
-
-1. Create a file called `env.h`
-1. Insert contents:
-  ```
-#define wifi_ssid "your ssid"
-#define wifi_password "your password"
-  ```
+- using OLED display: https://randomnerdtutorials.com/micropython-oled-display-esp32-esp8266/
+- MakerHawk ESP32 wiring diagram: https://raw.githubusercontent.com/Heltec-Aaron-Lee/WiFi_Kit_series/master/PinoutDiagram/WIFI%20Kit%2032.pdf

@@ -16,39 +16,27 @@ def show_health(health):
 
     display.show()
 
-
-def show_drinks(drinks):
+def show_drinks_menu(drinks):
     display.fill(0)
 
-    display.text('Drinks:', 0, 10)
+    text = []
 
-    for i, drink in enumerate(drinks, start=2):
-        display.text('- ' + drink.name, 0, 10 * i)
+    for drink in drinks:
+        text.append([drink.name, 'increment_drink(' + str(drink.id) + ')'])
+
+    menu.initText(text)
 
     display.show()
 
-text = [
-    ['music','print("perform a music")'],
-    ['game','a']
-]
+def increment_drink(drink_id):
+    print(drink_id)
 
-menu.initText(text)
+health = api.get_health()
+show_health(health)
 
-display.show()
+if health.is_healthy():
+    sleep(5)
 
-# while True:
-#     sleep(5)
+    drinks = api.get_drinks()
 
-#     display.fill(0)
-#     display.text('Getting health...', 0, 10)
-#     display.show()
-
-#     health = api.get_health()
-#     show_health(health)
-
-#     if health.is_healthy:
-#         sleep(5)
-
-#         drinks = api.get_drinks()
-
-#         show_drinks(drinks)
+    show_drinks_menu(drinks)

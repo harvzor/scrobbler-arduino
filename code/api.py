@@ -5,21 +5,29 @@ import env
 
 def get(endpoint):
     print('GET ' + endpoint)
-
-    res = urequests.get(endpoint)
-
     print('---')
-    print('Status: ' + str(res.status_code))
 
-    if res.status_code != 200:
-        raise Exception('API returned non-200 code')
+    try:
+        res = urequests.get(endpoint)
 
-    return res.json()
+        print('Status: ' + str(res.status_code))
+
+        if res.status_code != 200:
+            return None
+
+        return res.json()
+    except:
+        print('No response...')
+        return None
+
 
 def get_health():
     endpoint = env.api + '/health'
 
     obj = get(endpoint)
+
+    if obj is None:
+        return Health()
 
     return Health.from_obj(obj)
 
@@ -27,5 +35,8 @@ def get_drinks():
     endpoint = env.api + '/drinks'
 
     objs = get(endpoint)
+
+    if objs is None:
+        return None
 
     return Drink.from_objs(objs)

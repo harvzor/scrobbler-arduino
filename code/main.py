@@ -2,18 +2,14 @@ from time import sleep
 import api
 from display import display
 
-display.text('Main...', 0, 0)
+display.text('Starting...', 0, 0)
 
 display.show()
 
-def show_health():
+def show_health(health):
     display.fill(0)
 
-    display.text('Getting health...', 0, 10)
-
-    health = api.get_health()
-
-    if health.status == 'Healthy':
+    if health.is_healthy():
         display.text('API healthy', 0, 20)
     else:
         display.text('API unhealthy!', 0, 20)
@@ -36,8 +32,14 @@ def show_drinks():
 while True:
     sleep(5)
 
-    show_health()
+    display.fill(0)
+    display.text('Getting health...', 0, 10)
+    display.show()
 
-    sleep(5)
+    health = api.get_health()
+    show_health(health)
 
-    show_drinks()
+    if health.is_healthy:
+        sleep(5)
+
+        show_drinks()

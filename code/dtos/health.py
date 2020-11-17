@@ -7,6 +7,8 @@ class Health:
         health.status = obj['status']
 
         return health
+    def is_healthy(self):
+        return self.status == 'Healthy'
 
     def __str__(self):
         # return f'Health({self.status})'

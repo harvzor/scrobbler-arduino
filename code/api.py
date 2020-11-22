@@ -24,7 +24,7 @@ def get(endpoint):
         return None
 
 def post(endpoint, data):
-    json_data = ujson.dumps(data)
+    json_data = ujson.dumps(data.__dict__)
 
     print('POST ' + endpoint)
     print(json_data)
@@ -42,7 +42,6 @@ def post(endpoint, data):
     except:
         print('No response...')
         return None
-
 
 def get_health():
     endpoint = env.api + '/health'
@@ -69,7 +68,7 @@ def post_scrobble(item_id):
     
     scrobble_post = ScrobblePost()
 
-    ScrobblePost.drink_id = item_id
+    scrobble_post.drink_id = item_id
 
     endpoint = env.api + '/drink_dranks'
 

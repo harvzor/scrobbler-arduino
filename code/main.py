@@ -64,16 +64,6 @@ def scrobble_item(item_id):
 
     load_and_show_drinks_menu()
 
-# health = api.get_health()
-# show_health(health)
-
-# if health.is_healthy():
-#     load_and_show_drinks_menu()
-
-button_up = Pin(38, Pin.IN, Pin.PULL_UP)
-button_down= Pin(37, Pin.IN, Pin.PULL_UP)
-button_select= Pin(36, Pin.IN, Pin.PULL_UP)
-
 def button_up_callback(pin):
     d = debounce(pin)
 
@@ -81,6 +71,7 @@ def button_up_callback(pin):
         return
     elif d:
         menu.moveUp()
+        display.show()
     else:
         return
 
@@ -91,6 +82,7 @@ def button_down_callback(pin):
         return
     elif d:
         menu.moveDown()
+        display.show()
     else:
         return
 
@@ -104,6 +96,29 @@ def button_select_callback(pin):
     else:
         return
 
-button_up.irq(trigger = Pin.IRA_FALLING | Pin.IRQ_RISING, handler = button_up_callback)
-button_down.irq(trigger = Pin.IRA_FALLING | Pin.IRQ_RISING, handler = button_down_callback)
-button_select.irq(trigger = Pin.IRA_FALLING | Pin.IRQ_RISING, handler = button_select_callback)
+def setup_buttons():
+    global button_up
+    global button_down
+    global button_select
+
+    button_up = Pin(38, Pin.IN, Pin.PULL_UP)
+    button_down= Pin(37, Pin.IN, Pin.PULL_UP)
+    button_select= Pin(36, Pin.IN, Pin.PULL_UP)
+
+    # button_up.irq(trigger = Pin.IRQ_FALLING | Pin.IRQ_RISING, handler = button_up_callback)
+    # button_down.irq(trigger = Pin.IRQ_FALLING | Pin.IRQ_RISING, handler = button_down_callback)
+    # button_select.irq(trigger = Pin.IRQ_FALLING | Pin.IRQ_RISING, handler = button_select_callback)
+    button_up.irq(trigger = Pin.IRQ_RISING, handler = button_up_callback)
+    button_down.irq(trigger = Pin.IRQ_RISING, handler = button_down_callback)
+    button_select.irq(trigger = Pin.IRQ_RISING, handler = button_select_callback)
+
+def main():
+    setup_buttons()
+
+    health = api.get_health()
+    show_health(health)
+
+    if health.is_healthy():
+        load_and_show_drinks_menu()
+
+main()

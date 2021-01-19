@@ -5,18 +5,6 @@ import api
 from display import display, graphics, menu
 import wifi
 
-wifi.do_connect()
-
-# https://micronote.tech/2020/02/Timers-and-Interrupts-with-a-NodeMCU-and-MicroPython/
-def debounce(pin):
-    prev = None
-    for _ in range(32):
-        current_value = pin.value()
-        if prev != None and prev != current_value:
-            return None
-        prev = current_value
-    return prev
-
 def show_health(health):
     display.fill(0)
 
@@ -65,60 +53,63 @@ def scrobble_item(item_id):
     load_and_show_drinks_menu()
 
 def button_up_callback(pin):
-    d = debounce(pin)
+    print('up')
+    print(pin.value())
 
-    if d == None:
-        return
-    elif d:
-        menu.moveUp()
-        display.show()
-    else:
-        return
+    display.fill(0)
+    display.text('Up', 0, 0)
+    display.show()
+
+    # menu.moveUp()
+    # display.show()
 
 def button_down_callback(pin):
-    d = debounce(pin)
+    print('down')
+    print(pin.value())
 
-    if d == None:
-        return
-    elif d:
-        menu.moveDown()
-        display.show()
-    else:
-        return
+    display.fill(0)
+    display.text('Down', 0, 0)
+    display.show()
+
+    # menu.moveDown()
+    # display.show()
 
 def button_select_callback(pin):
-    d = debounce(pin)
+    print('click')
+    print(pin.value())
 
-    if d == None:
-        return
-    elif d:
-        menu.click()
-    else:
-        return
+    display.fill(0)
+    display.text('Click', 0, 0)
+    display.show()
+
+    # menu.click()
 
 def setup_buttons():
     global button_up
     global button_down
     global button_select
 
-    button_up = Pin(38, Pin.IN, Pin.PULL_UP)
-    button_down= Pin(37, Pin.IN, Pin.PULL_UP)
-    button_select= Pin(36, Pin.IN, Pin.PULL_UP)
+    button_up = Pin(23, Pin.IN, Pin.PULL_UP)
+    button_down = Pin(19, Pin.IN, Pin.PULL_UP)
+    button_select = Pin(22, Pin.IN, Pin.PULL_UP)
 
-    # button_up.irq(trigger = Pin.IRQ_FALLING | Pin.IRQ_RISING, handler = button_up_callback)
-    # button_down.irq(trigger = Pin.IRQ_FALLING | Pin.IRQ_RISING, handler = button_down_callback)
-    # button_select.irq(trigger = Pin.IRQ_FALLING | Pin.IRQ_RISING, handler = button_select_callback)
-    button_up.irq(trigger = Pin.IRQ_RISING, handler = button_up_callback)
-    button_down.irq(trigger = Pin.IRQ_RISING, handler = button_down_callback)
-    button_select.irq(trigger = Pin.IRQ_RISING, handler = button_select_callback)
+    button_up.irq(trigger = Pin.IRQ_FALLING, handler = button_up_callback)
+    button_down.irq(trigger = Pin.IRQ_FALLING, handler = button_down_callback)
+    button_select.irq(trigger = Pin.IRQ_FALLING, handler = button_select_callback)
 
 def main():
+    # wifi.do_connect()
+
+    display.fill(0)
+    display.text('Main', 0, 0)
+    display.show()
+
     setup_buttons()
 
-    health = api.get_health()
-    show_health(health)
+    # health = api.get_health()
+    # show_health(health)
 
-    if health.is_healthy():
-        load_and_show_drinks_menu()
+    # if health.is_healthy():
+    #     load_and_show_drinks_menu()
 
 main()

@@ -85,6 +85,13 @@ If you want to also send messages, also follow this: https://stackoverflow.com/q
 - using OLED display: https://randomnerdtutorials.com/micropython-oled-display-esp32-esp8266/
 - MakerHawk ESP32 wiring diagram: https://raw.githubusercontent.com/Heltec-Aaron-Lee/WiFi_Kit_series/master/PinoutDiagram/WIFI%20Kit%2032.pdf
 
+### ESP32 notes
+
+> Pins 34-39 are input only, and also do not have internal pull-up resistors
+https://docs.micropython.org/en/latest/esp32/quickref.html#pins-and-gpio
+
+Also had issues with button 21.
+
 ## Intellisense
 
 Doens't really work because VSCode can't find the libaries used by micropython.

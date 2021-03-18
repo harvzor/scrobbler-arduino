@@ -1,4 +1,8 @@
-# Drinks Drunk Arduino
+# Scrobbler Arduino
+
+An Arduino device which allows for easy scrobbling of things.
+
+## Language
 
 Decided to use MicroPython since whatever abomination of C++ sub or superset that Arduino normally uses is a huge pain to work with.
 

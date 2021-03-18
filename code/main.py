@@ -25,18 +25,15 @@ def show_health(health):
 
     display.show()
 
-def load_and_show_drinks_menu():
-    drinks = api.get_drinks()
+def load_and_show_trackables_menu():
+    trackables = api.get_trackables()
 
-    show_drinks_menu(drinks)
-
-def show_drinks_menu(items):
     display.fill(0)
 
     text = []
 
-    for item in items:
-        text.append([item.name, 'scrobble_item(' + str(item.id) + ')'])
+    for trackable in trackables:
+        text.append([trackable.name, 'scrobble_item(' + str(trackable.id) + ')'])
 
     menu.initText(text)
 
@@ -60,7 +57,7 @@ def scrobble_item(item_id):
 
     sleep(3)
 
-    load_and_show_drinks_menu()
+    load_and_show_trackables_menu()
 
 def button_up_callback(pin):
     d = debounce(pin)
@@ -137,6 +134,6 @@ def main():
     show_health(health)
 
     if health.is_healthy():
-        load_and_show_drinks_menu()
+        load_and_show_trackables_menu()
 
 main()

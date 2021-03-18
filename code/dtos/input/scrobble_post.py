@@ -1,2 +1,2 @@
 class ScrobblePost:
-    drink_id = 0
+    trackable_id = 0

@@ -8,8 +8,8 @@ class Scrobble:
         scrobble = Scrobble()
 
         scrobble.id = obj['id']
-        scrobble.item_id = obj['drink_id']
-        scrobble.timestamp = obj['drank_timestamp']
+        scrobble.item_id = obj['trackable_id']
+        scrobble.timestamp = obj['timestamp']
 
         return scrobble
 

@@ -4,6 +4,7 @@ from machine import Pin
 import api
 from display import display, graphics, menu
 import wifi
+import bt
 
 # https://micronote.tech/2020/02/Timers-and-Interrupts-with-a-NodeMCU-and-MicroPython/
 def debounce(pin):
@@ -126,6 +127,8 @@ def setup_buttons():
     button_select.irq(trigger = Pin.IRQ_RISING, handler = button_select_callback)
 
 def main():
+    bt.demo()
+
     wifi.do_connect()
 
     setup_buttons()

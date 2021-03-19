@@ -44,7 +44,7 @@ def post(endpoint, data):
         return None
 
 def get_health():
-    endpoint = env.api + '/health'
+    endpoint = env.get('api') + '/health'
 
     obj = get(endpoint)
 
@@ -54,7 +54,7 @@ def get_health():
     return Health.from_obj(obj)
 
 def get_trackables():
-    endpoint = env.api + '/trackables'
+    endpoint = env.get('api') + '/trackables'
 
     objs = get(endpoint)
 
@@ -70,7 +70,7 @@ def post_scrobble(trackable_id):
 
     scrobble_post.trackable_id = trackable_id
 
-    endpoint = env.api + '/scrobbles'
+    endpoint = env.get('api') + '/scrobbles'
 
     obj = post(endpoint, scrobble_post)
 
